@@ -14,3 +14,16 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['middleware'=>['auth']], function(){
+    Route::prefix('admin')->namespace('Admin')->group(function (){
+        Route::get('/', 'ContactsController@index')->name('contacts.index');
+        Route::get('/list', 'ContactsController@list')->name('contacts.list');
+
+    });
+});
